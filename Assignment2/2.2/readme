@@ -1,0 +1,20 @@
+Observations :
+
+- Generally for fixed p, D bandwidth is highest for ppn = 8 because ppn = 8 has maximum intra node data transfer while using maximum amount of process available in each node.
+
+- We see a general increasing trend in bandwidth as D increases. This is because of 2 factors.
+  One is bandwidth terms dominates as D increases. Other is that ring will perform better as D increases because avg. number of hops is less causing 
+  TCP data transfer favourable over both eager and other Allgather algorithms where avg. number of hops are more.
+
+- For D<=512KB MPI_Bcast will use Recursive Doubling Allgather while Ring Allgather for D>512KB.
+  Since Recursive doubling has lower Latency term and Latency term dominates for small data sizes, MPI_Bcast is expected to perform better(which is seen).
+  However, we dont expect MPI_Bcast to perform 2/ceil(log_2(n)) {from complexity} which is clearly seen from plots.
+
+- For large data size, both algo will use ring Allgather. MY_Bcast assumes D is divisible by P and some other assumptions.
+  However, MPI_Bcast has extra checks giving more computation overhead. So, sometimes our algorithm will perform better.
+
+Steps to run:
+- To run: `./run.sh` in 2.2 folder.
+- To compile: `make` in 2.2 folder.
+- To run specific config: `mpiexec -n {p} -ppn {ppn} -hostfile ../hostfile ./src.x {D}` in 2.2 folder.
+- To generate hostfile: `make hostfile` in 2.2 folder.

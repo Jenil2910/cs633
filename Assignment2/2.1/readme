@@ -1,0 +1,23 @@
+Steps to run:
+- To run: `./run.sh` in 2.2 folder.
+- To compile: `make` in 2.2 folder.
+- To run specific config: `mpiexec -n 30 -hostfile ../hostfile ./src.x $D` in 2.2 folder.
+- To generate hostfile: `make hostfile` in 2.2 folder.
+
+Observations:
+- In physical topology closer nodes will have greater effective bandwidth as no. of hops will be less giving less overall time. 
+  This is easily seen by the fact that patches closer to diagonal are brighter.
+
+- However, some faraway patches are better than closer ones. This may be due to one of 2 reasons. 
+  One is that darker nodes might have suffered from network variability causing their synchronization steps to be unnecessarily long.
+  Other is that even if the better pair has more difference in ranks, they are relatively closer in physical network topology.
+
+- As D increases, we see clear contrast between elements near diagonal and those far away from it.
+  This is because for large D, farther nodes will take more time as large message communication means rendezvous method and more packet transfer along TCP.
+
+- For small D, there is less variance(heatmap does not change much). This is because for small data size eager method is used and requires very less packet transfer.
+
+Other:
+- plot folder contains all plots
+  plot0-D means center is zero and D size
+  plot1-D means center is not zero and D size
